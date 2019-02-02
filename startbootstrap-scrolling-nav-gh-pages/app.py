@@ -38,6 +38,29 @@ def home():
     
     return render_template("index.html")
 
+@app.route("/api/v1.0/sqft")
+def sqft():
+    # Avg by year
+    #
+
+
+    return 
+
+@app.route("/api/v1.0/sales")
+def sales():
+    # Sum by year
+    # Mean and median variations
+    # line chart
+        # x = year
+        # y = sales count
+        
+    return
+
+@app.route("/api/v1.0/price")
+def price():
+    # Avg by year
+
+    return
 #  Define main behavior
 if __name__ == "__main__":
     app.run(debug=True)
