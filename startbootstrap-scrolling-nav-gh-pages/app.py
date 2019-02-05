@@ -8,6 +8,8 @@ from mysql_conn import password
 import numpy as np
 import pymysql
 pymysql.install_as_MySQLdb()
+import requests
+import pandas as pd
 
 connection_string = (f"root:{password}@localhost/real_estate")
 engine = create_engine(f"mysql://{connection_string}")
@@ -20,7 +22,7 @@ Base.prepare(engine, reflect=True)
 mean_sales_count = Base.classes.mean_sales_count
 median_sales_count = Base.classes.median_sales_count
 median_price_sqft = Base.classes.median_price_sqft
-#median_price_zip = Base.classes.median_price_zip
+median_price_zip = Base.classes.median_price_zip
 print(Base.classes.keys())
 
 # Create our connection object
@@ -192,6 +194,66 @@ def cities():
         }
     return jsonify(city_dict)
 
+@app.route("/ZipCodes")
+def zip():
+    metro_names = ['Seattle-Tacoma-Bellevue',
+    'Washington-Arlington-Alexandria',
+    'Detroit-Warren-Dearborn',
+    'Denver-Aurora-Lakewood',
+    'Austin-Round Rock',
+    'Orlando-Kissimmee-Sanford',
+    'Raleigh-Durham-Chapel Hill',
+    'Dallas-Fort Worth-Arlington',
+    'San Francisco-Oakland-Hayward',
+    'New York-Newark-Jersey City']
+
+    price_agg = pd.read_sql_table('median_price_zip', engine)
+
+    metro_zipcodes = {}
+    for metro in metro_names:
+        metro_zipcodes[metro] = list(price_agg.loc[price_agg.Metro == metro].ZipCode)
+
+    zip_geo = {'WA':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/wa_washington_zip_codes_geo.min.json',
+            'DC':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/dc_district_of_columbia_zip_codes_geo.min.json', 
+            'MD':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/md_maryland_zip_codes_geo.min.json', 
+            'VA':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/va_virginia_zip_codes_geo.min.json', 
+            'WV':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/wv_west_virginia_zip_codes_geo.min.json', 
+            'MI':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/mi_michigan_zip_codes_geo.min.json', 
+            'CO':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/co_colorado_zip_codes_geo.min.json', 
+            'TX':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/tx_texas_zip_codes_geo.min.json', 
+            'FL':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/fl_florida_zip_codes_geo.min.json', 
+            'NC':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/nc_north_carolina_zip_codes_geo.min.json', 
+            'CA':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/ca_california_zip_codes_geo.min.json', 
+            'NY':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/ny_new_york_zip_codes_geo.min.json', 
+            'NJ':'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/nj_new_jersey_zip_codes_geo.min.json'}
+    
+    metro_zips = []
+    for key, url in zip_geo.items():
+        r = requests.get(url)
+        zips_json = r.json()
+        
+        sub_zips = {}
+        for i in range(0, len(zips_json['features'])):
+            for key, values in metro_zipcodes.items():
+                for value in values:
+                    if value == int(zips_json['features'][i]['properties']['ZCTA5CE10']):
+                        sub_zips[value] = zips_json['features'][i]['geometry']['coordinates'][0]
+        metro_zips.append(sub_zips)
+   
+    return jsonify(metro_zips)
+
+@app.route("/test")
+def test():
+    
+    metro_areas = session.query(median_price_zip.Metro).distinct().all()
+
+    zip_code = []
+    for metro in metro_areas:
+        zip_code.append([metro, (session.query(median_price_zip.ZipCode).filter(median_price_zip.Metro == f"{metro[0]}")).all()])
+
+    
+
+    return jsonify({'zip':zip_code})
 #  Define main behavior
 if __name__ == "__main__":
     app.run(debug=True)
