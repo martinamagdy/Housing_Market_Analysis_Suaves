@@ -247,7 +247,7 @@ def zip():
    
     return jsonify(metro_zips)
 
-@app.route("/test")
+@app.route("/sale_price")
 def test():
     city_dict = {}
     results = (session.query(mean_sales_count.Metro).all())
