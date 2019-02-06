@@ -249,16 +249,54 @@ def zip():
 
 @app.route("/test")
 def test():
-    
-    metro_areas = session.query(median_price_zip.Metro).distinct().all()
+    city_dict = {}
+    results = (session.query(mean_sales_count.Metro).all())
+    city_list = list(np.ravel(results))
+    print(city_list)
 
-    zip_code = []
-    for metro in metro_areas:
-        zip_code.append([metro, (session.query(median_price_zip.ZipCode).filter(median_price_zip.Metro == f"{metro[0]}")).all()])
+    city_ST = {'Austin-Round Rock': 'Austin, TX', 
+                'Dallas-Fort Worth-Arlington': 'Dallas-Forth Worth, TX', 
+                'Denver-Aurora-Lakewood': 'Denver, CO', 
+                'Detroit-Warren-Dearborn': 'Detroit, MI', 
+                'New York-Newark-Jersey City': 'New York City, NY', 
+                'Orlando-Kissimmee-Sanford': 'Orlando, FL', 
+                'Raleigh-Durham-Chapel Hill': 'Raleigh-Durham, NC', 
+                'San Francisco-Oakland-Hayward': 'San Francisco, CA', 
+                'Seattle-Tacoma-Bellevue': 'Seattle, WA', 
+                'Washington-Arlington-Alexandria': 'Washington D.C.'}
 
-    
+    city_dict = {}
+    for city in city_list[2:]:
+        price_results = ((session.query(median_price_zip._2008,
+                                            median_price_zip._2009,
+                                            median_price_zip._2010,
+                                            median_price_zip._2011,
+                                            median_price_zip._2012,
+                                            median_price_zip._2013,
+                                            median_price_zip._2014,
+                                            median_price_zip._2015,
+                                            median_price_zip._2016,
+                                            median_price_zip._2017,
+                                            median_price_zip._2018)).filter(median_price_zip.Metro == city).all())
 
-    return jsonify({'zip':zip_code})
+        price_results_list = list(np.ravel(price_results))
+        
+        city_dict[city_ST[city]] = {
+            "Metro Area": city,
+            "Median Sale Price Per Year": {
+                "2008": str(price_results_list[0]),
+                "2009": str(price_results_list[1]),
+                "2010": str(price_results_list[2]),
+                "2011": str(price_results_list[3]),
+                "2012": str(price_results_list[4]),
+                "2013": str(price_results_list[5]),
+                "2014": str(price_results_list[6]),
+                "2015": str(price_results_list[7]),
+                "2016": str(price_results_list[8]),
+                "2017": str(price_results_list[9]),
+                "2018": str(price_results_list[10])
+            }}
+    return jsonify(city_dict)
 #  Define main behavior
 if __name__ == "__main__":
     app.run(debug=True)
