@@ -297,6 +297,47 @@ def test():
                 "2018": str(price_results_list[10])
             }}
     return jsonify(city_dict)
+
+@app.route("/sale_price_2013_2018")
+def price():
+    city_dict = {}
+    results = (session.query(mean_sales_count.Metro).all())
+    city_list = list(np.ravel(results))
+    print(city_list)
+
+    city_ST = {'Austin-Round Rock': 'Austin, TX', 
+                'Dallas-Fort Worth-Arlington': 'Dallas-Forth Worth, TX', 
+                'Denver-Aurora-Lakewood': 'Denver, CO', 
+                'Detroit-Warren-Dearborn': 'Detroit, MI', 
+                'New York-Newark-Jersey City': 'New York City, NY', 
+                'Orlando-Kissimmee-Sanford': 'Orlando, FL', 
+                'Raleigh-Durham-Chapel Hill': 'Raleigh-Durham, NC', 
+                'San Francisco-Oakland-Hayward': 'San Francisco, CA', 
+                'Seattle-Tacoma-Bellevue': 'Seattle, WA', 
+                'Washington-Arlington-Alexandria': 'Washington D.C.'}
+
+    city_dict = {}
+    for city in city_list:
+        price_results = ((session.query(median_price_zip._2013,
+                                            median_price_zip._2014,
+                                            median_price_zip._2015,
+                                            median_price_zip._2016,
+                                            median_price_zip._2017,
+                                            median_price_zip._2018)).filter(median_price_zip.Metro == city).all())
+
+        price_results_list = list(np.ravel(price_results))
+        
+        city_dict[city_ST[city]] = {
+            "Metro Area": city,
+            "Median Sale Price Per Year": {
+                "2013": str(price_results_list[0]),
+                "2014": str(price_results_list[1]),
+                "2015": str(price_results_list[2]),
+                "2016": str(price_results_list[3]),
+                "2017": str(price_results_list[4]),
+                "2018": str(price_results_list[5])
+            }}
+    return jsonify(city_dict)
 #  Define main behavior
 if __name__ == "__main__":
     app.run(debug=True)
