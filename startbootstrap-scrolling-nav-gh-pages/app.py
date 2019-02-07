@@ -11,6 +11,7 @@ pymysql.install_as_MySQLdb()
 import requests
 import pandas as pd
 
+
 import sys
 sys.path.append("static/js")
 sys.path.append("static/css")
@@ -146,55 +147,55 @@ def cities():
         city_dict[city_ST[city]] = {
             "Metro Area": city,
             "Mean Sales Per Year": {
-                "2008": str(mean_results_list[0]),
-                "2009": str(mean_results_list[1]),
-                "2010": str(mean_results_list[2]),
-                "2011": str(mean_results_list[3]),
-                "2012": str(mean_results_list[4]),
-                "2013": str(mean_results_list[5]),
-                "2014": str(mean_results_list[6]),
-                "2015": str(mean_results_list[7]),
-                "2016": str(mean_results_list[8]),
-                "2017": str(mean_results_list[9]),
-                "2018": str(mean_results_list[10])
+                "2008": str(int(mean_results_list[0])),
+                "2009": str(int(mean_results_list[1])),
+                "2010": str(int(mean_results_list[2])),
+                "2011": str(int(mean_results_list[3])),
+                "2012": str(int(mean_results_list[4])),
+                "2013": str(int(mean_results_list[5])),
+                "2014": str(int(mean_results_list[6])),
+                "2015": str(int(mean_results_list[7])),
+                "2016": str(int(mean_results_list[8])),
+                "2017": str(int(mean_results_list[9])),
+                "2018": str(int(mean_results_list[10]))
             },
             "Median Sales Per Year": {
-                "2008": str(median_results_list[0]),
-                "2009": str(median_results_list[1]),
-                "2010": str(median_results_list[2]),
-                "2011": str(median_results_list[3]),
-                "2012": str(median_results_list[4]),
-                "2013": str(median_results_list[5]),
-                "2014": str(median_results_list[6]),
-                "2015": str(median_results_list[7]),
-                "2016": str(median_results_list[8]),
-                "2017": str(median_results_list[9]),
-                "2018": str(median_results_list[10])
+                "2008": str(int(median_results_list[0])),
+                "2009": str(int(median_results_list[1])),
+                "2010": str(int(median_results_list[2])),
+                "2011": str(int(median_results_list[3])),
+                "2012": str(int(median_results_list[4])),
+                "2013": str(int(median_results_list[5])),
+                "2014": str(int(median_results_list[6])),
+                "2015": str(int(median_results_list[7])),
+                "2016": str(int(median_results_list[8])),
+                "2017": str(int(median_results_list[9])),
+                "2018": str(int(median_results_list[10]))
             },
             "Median Price Per Square Foot": {
-                "1996": str(sqft_results_list[0]),
-                "1997": str(sqft_results_list[1]),
-                "1998": str(sqft_results_list[2]),
-                "1999": str(sqft_results_list[3]),
-                "2000": str(sqft_results_list[4]),
-                "2001": str(sqft_results_list[5]),
-                "2002": str(sqft_results_list[6]),
-                "2003": str(sqft_results_list[7]),
-                "2004": str(sqft_results_list[8]),
-                "2005": str(sqft_results_list[9]),
-                "2006": str(sqft_results_list[10]),
-                "2007": str(sqft_results_list[11]),
-                "2008": str(sqft_results_list[12]),
-                "2009": str(sqft_results_list[13]),
-                "2010": str(sqft_results_list[14]),
-                "2011": str(sqft_results_list[15]),
-                "2012": str(sqft_results_list[16]),
-                "2013": str(sqft_results_list[17]),
-                "2014": str(sqft_results_list[18]),
-                "2015": str(sqft_results_list[19]),
-                "2016": str(sqft_results_list[20]),
-                "2017": str(sqft_results_list[21]),
-                "2018": str(sqft_results_list[22])
+                "1996": str(int(sqft_results_list[0])),
+                "1997": str(int(sqft_results_list[1])),
+                "1998": str(int(sqft_results_list[2])),
+                "1999": str(int(sqft_results_list[3])),
+                "2000": str(int(sqft_results_list[4])),
+                "2001": str(int(sqft_results_list[5])),
+                "2002": str(int(sqft_results_list[6])),
+                "2003": str(int(sqft_results_list[7])),
+                "2004": str(int(sqft_results_list[8])),
+                "2005": str(int(sqft_results_list[9])),
+                "2006": str(int(sqft_results_list[10])),
+                "2007": str(int(sqft_results_list[11])),
+                "2008": str(int(sqft_results_list[12])),
+                "2009": str(int(sqft_results_list[13])),
+                "2010": str(int(sqft_results_list[14])),
+                "2011": str(int(sqft_results_list[15])),
+                "2012": str(int(sqft_results_list[16])),
+                "2013": str(int(sqft_results_list[17])),
+                "2014": str(int(sqft_results_list[18])),
+                "2015": str(int(sqft_results_list[19])),
+                "2016": str(int(sqft_results_list[20])),
+                "2017": str(int(sqft_results_list[21])),
+                "2018": str(int(sqft_results_list[22]))
             }
         }
     return jsonify(city_dict)
