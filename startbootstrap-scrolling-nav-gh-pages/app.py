@@ -17,7 +17,7 @@ sys.path.append("static/js")
 sys.path.append("static/css")
 sys.path.append("static/Images")
 
-connection_string = (f"root:{password}@localhost/real_estate")
+connection_string = (f"root:martina13@localhost/real_estate")
 engine = create_engine(f"mysql://{connection_string}")
 
 # reflect an existing database into a new model
@@ -42,7 +42,7 @@ app = Flask(__name__)
 @app.route("/")
 def apps():
     
-    return render_template("Suave_Housing_market_project.html")
+    return render_template("Suaves_Housing_market.html")
 
 @app.route("/names")
 def names():
@@ -317,28 +317,41 @@ def price():
                 'Seattle-Tacoma-Bellevue': 'Seattle, WA', 
                 'Washington-Arlington-Alexandria': 'Washington D.C.'}
 
-    city_dict = {}
-    for city in city_list:
+    coordinates = [[30.26, -97.74],[32.75, -97.33],[39.73, -104.99],
+                        [42.33, -83.04],[40.71, -74.00],[28.53, -81.37],
+                        [35.77, -78.63],[37.77, -122.41],[47.60, -122.33],[38.90, -77.03]]
+    
+    for i in range(10):
         price_results = ((session.query(median_price_zip._2013,
                                             median_price_zip._2014,
                                             median_price_zip._2015,
                                             median_price_zip._2016,
                                             median_price_zip._2017,
-                                            median_price_zip._2018)).filter(median_price_zip.Metro == city).all())
+                                            median_price_zip._2018)).filter(median_price_zip.Metro == city_list[i]).all())
 
         price_results_list = list(np.ravel(price_results))
-        
-        city_dict[city_ST[city]] = {
-            "Metro Area": city,
-            "Median Sale Price Per Year": {
-                "2013": str(price_results_list[0]),
-                "2014": str(price_results_list[1]),
-                "2015": str(price_results_list[2]),
-                "2016": str(price_results_list[3]),
-                "2017": str(price_results_list[4]),
-                "2018": str(price_results_list[5])
-            }}
+        city_dict.setdefault("locations", [])
+        city_dict["locations"].append({
+            "Coordinates": coordinates[i],
+            "city":{
+                "name":city_ST[city_list[i]],
+                "Metro Area": city_list[i],
+                "Median Sale Price Per Year": {
+                    "2013": str(price_results_list[0]),
+                    "2014": str(price_results_list[1]),
+                    "2015": str(price_results_list[2]),
+                    "2016": str(price_results_list[3]),
+                    "2017": str(price_results_list[4]),
+                    "2018": str(price_results_list[5])
+            }}})
+
     return jsonify(city_dict)
+
+@app.route("/map")
+def map():
+    
+    return render_template("index.html")
+
 #  Define main behavior
 if __name__ == "__main__":
     app.run(debug=True)
