@@ -17,7 +17,7 @@ sys.path.append("static/js")
 sys.path.append("static/css")
 sys.path.append("static/Images")
 
-connection_string = (f"root:martina13@localhost/real_estate")
+connection_string = (f"root:{password}@localhost/real_estate")
 engine = create_engine(f"mysql://{connection_string}")
 
 # reflect an existing database into a new model
