@@ -42,23 +42,25 @@
   }
   
   function init() {
-      //console.log("initialized")
-  // Grab a reference to the dropdown select element
-  //var selector = d3.select("#selDataset"); <- how will the user select city?
-  
-  // Use the list of sample names to populate the select options <- if using a dropdown list
-/*   d3.json("/names").then((cityNames) => {
-    cityNames.forEach((city) => {
-      selector
-        .append("option")
-        .text(city)
-        .property("value", city);
-    }); */
-  
-    // Use the first city on the list to build the initial plots
-    //const firstCity = cityNames[0];
-    buildCharts('Austin, TX');
-    //buildMetadata(firstCity);
+          //dropdown select year
+    // Grab a reference to the dropdown select element
+    var selector2 = d3.select("#selcity");
+
+    // Use the list of sample names to populate the select options
+        d3.json("/names").then((cities)=>{
+          console.log("mart",cities);
+        cities.forEach((city) => {
+        selector2
+            .append("option")
+            .text(city)
+            .property("value", city);
+        });
+
+
+    // Use the first sample from the list to build the initial plots
+    const firstcity = cities[0];
+    buildCharts(firstcity);
+    });
   };  //});
   
   

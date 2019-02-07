@@ -70,7 +70,7 @@ function init(){
 
 }
 
-function optionChanged(newYear){
+function optionchanged(newYear){
     // Fetch new year each time a new year is selected
     barcity(newYear);
 
