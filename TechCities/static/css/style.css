@@ -1,0 +1,43 @@
+/* remove default margin and padding from body */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* set map, body, and html to 100% of the screen size */
+body,
+html {
+  height: 100%; 
+}
+
+#map {
+  /* height: 800 px; */
+  height: 400%;
+  padding-bottom: 10px
+}
+
+/* Legend styling */
+.info {
+  padding: 6px 15px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+.legend {
+  line-height: 18px;
+  color: #555;
+}
+.legend i {
+  width: 36px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+}
+#map-div {
+  height: 800px;
+  margin-bottom: 50px
+}
+/* #contact {
+    padding-top: 1000px
+} */
