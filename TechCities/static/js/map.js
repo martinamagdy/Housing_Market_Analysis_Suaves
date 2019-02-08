@@ -7,7 +7,7 @@ var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 8,
     id: "mapbox.streets",
-    accessToken: API_KEY //"pk.eyJ1IjoibWFydGluYW1hZ2R5IiwiYSI6ImNqcjNtMXI3czFtdWozeWxzbm1kbDFoankifQ.xpWlsJKz-XqoIiRipPeioA" 
+    accessToken: API_KEY 
 });
 
 // Define arrays to hold created city and state markers
